@@ -1,0 +1,157 @@
+# Wedding-invitation-from..-
+Priti and Sagar 🌷
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priti & Sagar Wedding</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #FCE4EC;
+            --soft-cream: #FFF9F0;
+            --rose-gold: #B76E79;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--soft-cream);
+            overflow-x: hidden;
+        }
+
+        /* --- ENVELOPE & DOOR SECTION --- */
+        #hero-overlay {
+            position: fixed;
+            inset: 0; z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+            background: transparent; /* Changed to transparent so content behind is visible */
+            transition: opacity 1s ease;
+        }
+
+        .mahal-door {
+            position: absolute;
+            top: 0; width: 50%; height: 100vh;
+            background: #fff url('https://transparenttextures.com');
+            border: 1px solid var(--pastel-pink);
+            transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        #door-left { left: 0; border-right: 2px solid var(--rose-gold); }
+        #door-right { right: 0; border-left: 2px solid var(--rose-gold); }
+
+        .wax-stamp {
+            position: absolute; z-index: 1005;
+            width: 90px; height: 90px;
+            background: #e57373; border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 40px; color: white;
+            border: 3px solid #ef9a9a;
+            animation: bounce 2s infinite;
+        }
+
+        /* --- CONTENT --- */
+        .main-invitation {
+            padding: 100px 20px; text-align: center;
+            min-height: 100vh;
+            background: url('https://transparenttextures.com');
+            position: relative;
+            z-index: 1; /* Sits behind the doors initially */
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: clamp(3rem, 10vw, 5rem); color: var(--rose-gold); }
+        
+        .card {
+            max-width: 600px; margin: 40px auto;
+            padding: 30px; border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--pastel-pink);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .countdown { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
+        .countdown div { background: var(--pastel-pink); padding: 10px; border-radius: 8px; min-width: 70px; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes bounce { 0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);} }
+        .opened-left { transform: translateX(-100%); }
+        .opened-right { transform: translateX(100%); }
+        .hide-overlay { pointer-events: none; opacity: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Hidden Audio -->
+    <iframe id="audio" style="display:none" src="https://youtube.com"></iframe>
+
+    <!-- Entrance Section -->
+    <div id="hero-overlay">
+        <div class="wax-stamp" onclick="openInvitation()">🪷</div>
+        <div class="mahal-door" id="door-left"></div>
+        <div class="mahal-door" id="door-right"></div>
+    </div>
+
+    <!-- The Invitation (Behind Doors) -->
+    <div class="main-invitation">
+        <p style="letter-spacing: 5px; color: var(--rose-gold); margin-top: 50px;">THE WEDDING OF</p>
+        <h1>Priti & Sagar</h1>
+        
+        <div class="countdown" id="timer"></div>
+
+        <div class="card">
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose-gold);">Our Wedding</h2>
+            <p><strong>3rd May 2026 | 12:35 PM</strong></p>
+            <p>Tondapur, Taluka Jamner, Dist. Jalgaon</p>
+            <br>
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--rose-gold);">Haldi Ceremony</h2>
+            <p><strong>2nd May 2026 | 07:00 PM</strong></p>
+            <p>Tondapur, Taluka Jamner, Dist. Jalgaon</p>
+        </div>
+
+        <div class="card">
+            <p><i>"A chaotic journey turned into a graceful forever."</i></p>
+            <p>- Priti & Sagar</p>
+        </div>
+        
+        <p style="padding-bottom: 50px;">🦚 ✨ 🪷</p>
+    </div>
+
+    <script>
+        function openInvitation() {
+            // 1. Play Music
+            const audio = document.getElementById("audio");
+            audio.src += "&autoplay=1";
+
+            // 2. Animate Doors
+            document.getElementById('door-left').classList.add('opened-left');
+            document.getElementById('door-right').classList.add('opened-right');
+            
+            // 3. Remove Stamp and Fade Overlay
+            document.querySelector('.wax-stamp').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('hero-overlay').classList.add('hide-overlay');
+            }, 1500);
+        }
+
+        // Countdown Logic
+        const weddingDate = new Date("May 3, 2026 12:35:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = 
+                `<div>${days}<br><small>Days</small></div> 
+                 <div>${hours}<br><small>Hrs</small></div> 
+                 <div>${mins}<br><small>Mins</small></div>
+                 <div>${secs}<br><small>Secs</small></div>`;
+        }, 1000);
+    </script>
+</body>
+  </html>
+  
